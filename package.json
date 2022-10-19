@@ -1,0 +1,24 @@
+{
+  "name": "threedemo",
+  "version": "1.0.0",
+  "description": "threejs学习",
+  "main": "index.js",
+  "scripts": {
+    "dev": "parcel src/index.html",
+    "build": "parcel src/index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yll916/threeDemo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yll916/threeDemo/issues"
+  },
+  "homepage": "https://github.com/yll916/threeDemo#readme",
+  "dependencies": {
+    "parcel": "^2.7.0",
+    "three": "^0.145.0"
+  }
+}

@@ -1,8 +1,8 @@
 import * as THREE from "three";
-// 引入轨道控制器
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+
 /**
- * @desciption 轨道控制器的使用
+ * @desciption 基础场景使用
  */
 // 1. 创建一个场景对象
 var scene = new THREE.Scene();
@@ -15,10 +15,15 @@ var camera = new THREE.PerspectiveCamera(
   1000
 ); // fov、aspect、near、far
 
+const axes = new THREE.AxesHelper(5); // 坐标辅助器
+scene.add(axes);
 // 3. 创建一个渲染器 若浏览器不支持webgl 可选择其他降级的渲染器
 const renderer = new THREE.WebGLRenderer();
 // 设置渲染器大小 将输出canvas的大小调整为(width, height)并考虑设备像素比，
 renderer.setSize(window.innerWidth, window.innerHeight);
+
+// 轨道控制器
+const control = new OrbitControls(camera, renderer.domElement);
 
 // 4. 将renderer绘制好的canvas挂载到页面
 document.body.appendChild(renderer.domElement);
@@ -35,23 +40,10 @@ scene.add(cube); // 默认添加到(0,0,0)位置 会出现相机位置跟立方�
 // 可以将相机位置向后移动
 camera.position.z = 3;
 
-// 添加轨道控制器
-const control = new OrbitControls(camera, renderer.domElement); // 要被控制的相机、用于事件监听的HTML元素
-control.autoRotate = true // 设置自动旋转
-// 默认为true 相当于关闭了用户控制操作
-// control.enabled = false
-// 是否可缩放
-control.enableZoom = true
-
 // 最后就是将场景进行渲染
 function animate() {
   // 每一帧都进行绘制
   requestAnimationFrame(animate);
-  // 请注意，如果它被启用，你必须在你的动画循环里调用.update()。
-  control.update()
-  // 设置立方体旋转
-  // cube.rotation.x += 0.01;
-  // cube.rotation.y += 0.01;
   renderer.render(scene, camera); // 绘制到canvas上
 }
 animate();

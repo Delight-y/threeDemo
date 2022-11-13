@@ -15,7 +15,7 @@ var camera = new THREE.PerspectiveCamera(
   1000
 ); // fov、aspect、near、far
 
-const axes = new THREE.AxesHelper(5); // 坐标辅助器
+const axes = new THREE.AxesHelper(20); // 坐标辅助器
 scene.add(axes);
 // 3. 创建一个渲染器 若浏览器不支持webgl 可选择其他降级的渲染器
 const renderer = new THREE.WebGLRenderer();
@@ -28,17 +28,49 @@ const control = new OrbitControls(camera, renderer.domElement);
 // 4. 将renderer绘制好的canvas挂载到页面
 document.body.appendChild(renderer.domElement);
 
-// 在场景上创建物体
-const boxGeometry = new THREE.BoxGeometry(1, 1, 1); // 长宽高均为1的立方体
+// 在场景上创建多个物体
+const boxGeometry = new THREE.BoxGeometry(2, 2, 2); // 长宽高均为1的立方体
+const sphereGeometry = new THREE.SphereGeometry(1, 32, 16); // 球体
+const cylinderGeometry = new THREE.CylinderGeometry(1, 1, 5, 8); // 圆柱体
 // 设置图形的材质
-const material = new THREE.MeshBasicMaterial({ color: 0x00ffff00 });
-// 表示基于以三角形为polygon mesh（多边形网格）的物体的类。
-const cube = new THREE.Mesh(boxGeometry, material); // 立方体
+const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+// 网格模型对象
+const mesh1 = new THREE.Mesh(boxGeometry, material); // 立方体
+const mesh2 = new THREE.Mesh(sphereGeometry, material);
+const mesh3 = new THREE.Mesh(cylinderGeometry, material);
 
-// 把所创建的物体添加到场景中
-scene.add(cube); // 默认添加到(0,0,0)位置 会出现相机位置跟立方体重叠的问题
+// 创建一个Group对象
+const group = new THREE.Group();
+
+mesh2.translateX(10); // mesh2向x轴正方向移动100
+mesh3.translateY(10); // mesh3向y轴正方向移动100
+group.add(mesh1, mesh2, mesh3); // 将模型对象添加到group中
+scene.add(group);
+
+// 添加环境光
+const light = new THREE.AmbientLight(0x404040);
+// scene.add(light);
+
+// 添加点光源
+const pointLight = new THREE.PointLight(0xffffff);
+pointLight.position.set(6, 10, 6);
+scene.add(pointLight);
+const sphereSize = 1;
+const pointLightHelper = new THREE.PointLightHelper(pointLight, sphereSize); // 模拟点光源
+// scene.add(pointLightHelper);
+
+// 添加太阳光 平行光
+const directionalLight = new THREE.DirectionalLight(0xffffff);
+// 通过position与target确定光源方向
+directionalLight.position.set(6, 10, 6);
+directionalLight.target = mesh2; // target光照的目标对象 默认(0, 0, 0)
+// 模拟平行光
+const directionalLightHelper = new THREE.DirectionalLightHelper(directionalLight, 1);
+scene.add(directionalLightHelper);
+scene.add(directionalLight);
+
 // 可以将相机位置向后移动
-camera.position.z = 3;
+camera.position.z = 25;
 
 // 最后就是将场景进行渲染
 function animate() {

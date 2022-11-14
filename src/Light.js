@@ -42,8 +42,8 @@ const mesh3 = new THREE.Mesh(cylinderGeometry, material);
 // 创建一个Group对象
 const group = new THREE.Group();
 
-mesh2.translateX(10); // mesh2向x轴正方向移动100
-mesh3.translateY(10); // mesh3向y轴正方向移动100
+mesh2.translateX(10); // mesh2向x轴正方向移动10
+mesh3.translateY(10); // mesh3向y轴正方向移动10
 group.add(mesh1, mesh2, mesh3); // 将模型对象添加到group中
 scene.add(group);
 

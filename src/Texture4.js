@@ -24,13 +24,13 @@ camera.position.z = 30;
 
 const textureLoader = new THREE.TextureLoader();
 // load方法回调函数，按照路径加载图片，返回一个html的元素img对象
-const texture1 = textureLoader.load("texture/wood.jpeg");
+const texture1 = textureLoader.load("texture/wood.jpg");
 const material1 = new THREE.MeshBasicMaterial({
   map: texture1, //设置纹理贴图
 });
 const mesh1 = new THREE.Mesh(geometry, material1); //网格模型对象Mesh
 
-const texture2 = textureLoader.load("texture/wood1.jpeg");
+const texture2 = textureLoader.load("texture/env.jpg");
 const material2 = new THREE.MeshBasicMaterial({
   map: texture2, //设置纹理贴图
 });

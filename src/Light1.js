@@ -57,7 +57,7 @@ pointLight.position.set(6, 10, 6);
 scene.add(pointLight);
 const sphereSize = 1;
 const pointLightHelper = new THREE.PointLightHelper(pointLight, sphereSize); // 模拟点光源
-// scene.add(pointLightHelper);
+scene.add(pointLightHelper);
 
 // 添加太阳光 平行光
 const directionalLight = new THREE.DirectionalLight(0xffffff);
@@ -66,8 +66,8 @@ directionalLight.position.set(6, 10, 6);
 directionalLight.target = mesh2; // target光照的目标对象 默认(0, 0, 0)
 // 模拟平行光
 const directionalLightHelper = new THREE.DirectionalLightHelper(directionalLight, 1);
-scene.add(directionalLightHelper);
-scene.add(directionalLight);
+// scene.add(directionalLightHelper);
+// scene.add(directionalLight);
 
 // 可以将相机位置向后移动
 camera.position.z = 25;

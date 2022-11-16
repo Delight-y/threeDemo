@@ -31,25 +31,25 @@ const control = new OrbitControls(camera, renderer.domElement);
  */
 const geometry = new THREE.BoxGeometry(10, 10, 10); // 创建一个立方体几何对象
 // 材质对象 如果采用点模型 对应使用点材质
-// const material = new THREE.PointsMaterial({
-//   color: 0x00ffff00,
-//   size: 2, // 点对象像素大小
-// });
-// // 点模型对象
-// const point = new THREE.Points(geometry, material);
-// // 将模型对象添加到场景中
-// scene.add(point);
-// camera.position.z = 30;
+const material = new THREE.PointsMaterial({
+  color: 0x00ffff00,
+  size: 2, // 点对象像素大小
+});
+// 点模型对象
+const point = new THREE.Points(geometry, material);
+// 将模型对象添加到场景中
+scene.add(point);
+camera.position.z = 30;
 
 /**
  * @description 采用线模型
  */
-const material = new THREE.LineBasicMaterial({
-  color: 0x00ffff00,
-});
-const lineObj = new THREE.Line(geometry, material);
-scene.add(lineObj);
-camera.position.z = 30;
+// const material = new THREE.LineBasicMaterial({
+//   color: 0x00ffff00,
+// });
+// const lineObj = new THREE.Line(geometry, material);
+// scene.add(lineObj);
+// camera.position.z = 30;
 /**
  * @description 采用网格模型
  */

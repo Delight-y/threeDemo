@@ -33,7 +33,9 @@ const boxGeometry = new THREE.BoxGeometry(2, 2, 2); // 长宽高均为1的立方
 const sphereGeometry = new THREE.SphereGeometry(1, 32, 16); // 球体
 const cylinderGeometry = new THREE.CylinderGeometry(1, 1, 5, 8); // 圆柱体
 // 设置图形的材质
-const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+// const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 }); // 改材质不受灯光影响
+const material = new THREE.MeshPhongMaterial({ color: 0x00ff00 });
+
 // 网格模型对象
 const mesh1 = new THREE.Mesh(boxGeometry, material); // 立方体
 const mesh2 = new THREE.Mesh(sphereGeometry, material);

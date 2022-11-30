@@ -31,7 +31,7 @@ const cube = new THREE.Mesh(boxGeometry, material); // 立方体
 // 把所创建的物体添加到场景中
 scene.add(cube); // 默认添加到(0,0,0)位置 会出现相机位置跟立方体重叠的问题
 // 可以将相机位置向后移动
-camera.position.z = 3;
+camera.position.z = 5;
 
 // 最后就是将场景进行渲染
 function animate() {

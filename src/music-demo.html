@@ -1,0 +1,127 @@
+<!--
+ * @Author: lili11.yang
+ * @Date: 2023-07-03 10:54:38
+ * @Description: 
+ * @LastEditTime: 2023-07-03 14:18:18
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>交互式音乐实践</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            /* overflow: hidden; */
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container"></div>
+    <audio id="audio" controls>
+        <source src="assets/guanlan.mp3" type="audio/mpeg" />
+    </audio>
+    <video id="video" width="640" height="360">
+        <source src="assets/test.mp4" type="video/mp4" />
+    </video>
+    <script type="module">
+        import * as THREE from "three";
+
+        let container, scene, camera, renderer, raycaster;
+        let audio, audioTexture, audioMesh, video, videoTexture, videoMesh;
+        const width = window.innerWidth;
+        const height = window.innerHeight / 2;
+        const aspect = width / height;
+
+        // 初始化处理
+        function init() {
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(45, aspect, 0.1, 1000);
+            renderer = new THREE.WebGLRenderer();
+            renderer.setSize(width, height);
+            container = document.getElementById('container');
+            container.appendChild(renderer.domElement);
+
+            // 创建视频可视化效果
+            var videoElement = document.getElementById('video');
+            video = new THREE.VideoTexture(videoElement);
+            video.minFilter = THREE.LinearFilter;
+            video.magFilter = THREE.LinearFilter;
+            var videoGeometry = new THREE.PlaneBufferGeometry(16, 9, 1, 1);
+            var videoMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
+            videoMaterial.map = video;
+            videoMesh = new THREE.Mesh(videoGeometry, videoMaterial);
+            scene.add(videoMesh);
+
+            // 创建 Raycaster 对象
+            raycaster = new THREE.Raycaster();
+
+            // 监听鼠标点击事件
+            window.addEventListener('mousedown', onDocumentMouseDown, false);
+
+            // 监听窗口大小改变事件
+            window.addEventListener('resize', onWindowResize, false);
+        }
+        function animate() {
+            // 更新音频和视频纹理
+            if (audioTexture) {
+                audioTexture.needsUpdate = true;
+            }
+            if (videoTexture) {
+                videoTexture.needsUpdate = true;
+            }
+
+            // 渲染 Three.js 场景
+            renderer.render(scene, camera);
+
+            // 循环调用 animate 函数
+            requestAnimationFrame(animate);
+        }
+
+        function onDocumentMouseDown(event) {
+            // 计算鼠标点击位置
+            var mouseX = event.clientX / window.innerWidth * 2 - 1;
+            var mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+            var vector = new THREE.Vector3(mouseX, mouseY, 0.5);
+            vector.unproject(camera);
+
+            // 发射射线检测鼠标点击位置是否与音频或视频 Mesh 相交
+            raycaster.set(camera.position, vector.sub(camera.position).normalize());
+            var intersects = raycaster.intersectObjects(scene.children);
+
+            if (intersects.length > 0) {
+                // 鼠标点击位置与音频或视频 Mesh 相交，触发相关的交互式功能
+                if (intersects[0].object === audioMesh) {
+                    if (audio.isPlaying) {
+                        audio.pause();
+                    } else {
+                        audio.play();
+                    }
+                } else if (intersects[0].object === videoMesh) {
+                    if (videoElement.paused) {
+                        videoElement.play();
+                    } else {
+                        videoElement.pause();
+                    }
+                }
+            }
+        }
+
+        function onWindowResize() {
+            // 调整 Three.js 场景的大小
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        init();
+        animate();
+    </script>
+</body>
+
+</html>

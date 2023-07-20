@@ -2,7 +2,7 @@
  * @Author: lili11.yang
  * @Date: 2023-06-29 18:08:06
  * @Description: maptalks配置
- * @LastEditTime: 2023-07-03 16:52:22
+ * @LastEditTime: 2023-07-04 09:41:33
  */
 const MAPNAME = "map";
 const date = new Date().getFullYear();
